@@ -1,0 +1,32 @@
+- provide(:title, t('products'))
+
+.box-header
+	%h2
+		%i.fa-icon-book.align-justify
+		%span.break
+		= t('products')
+
+
+.box-content
+	.dataTables_wrapper
+		.row-fluid
+			.btn-overlay
+				= link_to new_category_product_path(@category), class: 'btn btn-primary' do 
+					%i.halflings-icon.plus
+					= t(:_BTN_CREATE)
+
+	%table.table.table-striped.tree
+		%thead
+			%tr
+				%th{ width: "85%" }= t('products') 
+				%th= t(:_ACTIONS) 
+		%tbody
+			- if @products.any?
+				- @products.each do |item| 
+					%tr
+						%td= link_to item.name, edit_category_product_path(@category, item)
+						%td
+							= link_to edit_category_product_path(@category, item), class: 'btn btn-danger btn-small' do
+								%i.icon-edit
+							= link_to category_product_path(@category, item), method: 'delete', class: 'btn btn-danger btn-small', data: { confirm: t('_DELETE_CONFIRM') } do
+								%i.icon-trash

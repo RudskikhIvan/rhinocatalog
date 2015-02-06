@@ -24,5 +24,16 @@ module Rhinocatalog
 		validates :file, presence: true	
 
 		mount_uploader :file, ImageUploader
+	    acts_as_list scope: [:imageble_id, :imageble_type]
+
+	    def as_json(options = {})
+	        options[:only] ||= [:id, :name, :file, :tags, :alt]
+	        options[:methods] ||= [:file_size]
+	        super(options)
+	    end
+
+	    def file_size
+	        file.size
+	    end 
 	end
 end

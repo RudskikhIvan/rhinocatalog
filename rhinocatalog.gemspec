@@ -18,4 +18,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "rails", "~> 4.0.5"
   s.add_dependency "mysql2", "0.3.15"
+
+  s.add_dependency "mini_magick"
+  s.add_dependency "carrierwave"
 end

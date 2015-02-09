@@ -11,5 +11,10 @@ class CreateRhinocatalogImages < ActiveRecord::Migration
 
 			t.timestamps
 		end
+		add_index :rhinocatalog_images, :imageable_id
+		add_index :rhinocatalog_images, :imageable_type
+		add_index :rhinocatalog_images, :name
+		add_index :rhinocatalog_images, :file
+		add_index :rhinocatalog_images, :position
 	end
 end

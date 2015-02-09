@@ -1,10 +1,10 @@
 # encoding: utf-8
 module Rhinocatalog
-	class ImageUploader < CarrierWave::Uploader::Base
+	class DocumentUploader < CarrierWave::Uploader::Base
 
 		include CarrierWave::MimeTypes
 		# include CarrierWave::RMagick
-		include CarrierWave::MiniMagick
+		# include CarrierWave::MiniMagick
 
 		process :set_content_type
 		process :save_content_type_in_model
@@ -23,24 +23,10 @@ module Rhinocatalog
 			"uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
 		end
 
-		# process :resize_to_limit => [736, nil]  
-
-		# version :large do
-		# 	process :resize_to_limit => [736, nil]  
-		# end
-
-		# version :big_thumb do
-		# 	process resize_to_fill: [364, 189]
-		# end
-
-		# version :thumb do
-		# 	process resize_to_fill: [120, 120]
-		# end
-
 		# Add a white list of extensions which are allowed to be uploaded.
 		# For images you might use something like this:
 		def extension_white_list
-			%w(jpg jpeg gif png)
+			%w(pdf doc docx txt)
 		end  
 
 		def filename

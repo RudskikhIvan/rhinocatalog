@@ -27,7 +27,7 @@ module Rhinocatalog
 		validates_uniqueness_of :name, :slug, :scope => :category_id
 
 		def as_json(options = {})
-			options[:only] ||= [:id, :name, :description, :position]
+			options[:only] ||= [:id, :category_id, :name, :description, :position]
 			options[:methods] ||= [:images]
 
 			super(options)

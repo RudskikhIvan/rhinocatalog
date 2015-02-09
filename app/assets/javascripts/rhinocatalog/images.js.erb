@@ -1,0 +1,8 @@
+$(function(){
+	$(document).on("click", "[data-behavior*=remove_image]", function(e) {
+		e.preventDefault()
+
+	    $(this).closest(".media").parent().append($(this).data("remove-html"))
+	    $(this).closest(".media").remove()	
+	});	 
+})

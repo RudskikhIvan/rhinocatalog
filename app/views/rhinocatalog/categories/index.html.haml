@@ -24,7 +24,7 @@
 			- if @categories.any?
 				- @categories.each do |item| 
 					%tr
-						%td= link_to item.name, edit_category_path(item)
+						%td= link_to item.name, category_products_path(item)
 						%td
 							= link_to category_products_path(item), class: 'btn btn-danger btn-small' do
 								%i.icon-share

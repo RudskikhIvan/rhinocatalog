@@ -44,16 +44,27 @@
 
 				
 	.row-fluid
-		.span10.offset1			
+		.span10.offset1	
+			%legend Images		
 			= render 'images', f: f
 			/ - if !f.object.new_record?
 			/ 	= link_to 'Add image', images_path(attachable_id: f.object.id, attachable_type: f.object.class.name), remote: true, class: 'btn btn-sm btn-info', data: { target: "#imageForm", toggle: "modal"} 
+
+	%hr
+	.row-fluid
+		.span10.offset1	
+			%legend Videos		
+			= render 'videos', f: f
+
+	/ .row-fluid
+	/ 	.span10.offset1			
+	/ 		= render 'documents', f: f
 
 
 	.form-actions
 		.btn-overlay
 			= f.button t("_BTN_SAVE"), class: "btn btn-primary"
-			/ = f.button t('_BTN_SAVE_AND_CONTINUE'), class: 'btn btn-success', name: 'continue', value: 'continue'
+			= f.button t('_BTN_SAVE_AND_CONTINUE'), class: 'btn btn-success', name: 'continue', value: 'continue'
 			= link_to t("_BTN_CANCEL"), category_products_path(@category), class: "btn" 
 
 - content_for :javascript do

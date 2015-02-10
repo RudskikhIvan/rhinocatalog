@@ -5,4 +5,11 @@ $(function(){
 	    $(this).closest(".media").parent().append($(this).data("remove-html"))
 	    $(this).closest(".media").remove()	
 	});	 
+
+	$(document).on("click", "[data-behavior*=remove_video]", function(e) {
+		e.preventDefault()
+
+	    $(this).closest(".media").parent().append($(this).data("remove-html"))
+	    $(this).closest(".media .controls").remove()	
+	});	 
 })

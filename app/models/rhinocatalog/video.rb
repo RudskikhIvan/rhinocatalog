@@ -25,7 +25,7 @@ module Rhinocatalog
 		validates :file, presence: true	
 
 		mount_uploader :file, VideoUploader
-	    acts_as_list scope: [:videoable_id, :videoable_type]
+	    # acts_as_list scope: [:videoable_id, :videoable_type]
 
 		VIDEO_TYPE_HD = "video hd"
 		VIDEO_TYPE_SD = "video sd"

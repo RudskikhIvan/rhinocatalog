@@ -24,7 +24,7 @@ module Rhinocatalog
 
 		has_many :videos, as: :videoable, autosave: true, :dependent => :destroy
 		# has_many :videos, ->{ order(position: :asc) }, as: :videoable, :dependent => :destroy
-		# accepts_nested_attributes_for :videos, allow_destroy: true
+		# accepts_nested_attributes_for :videos, allow_destroy: true#, reject_if: proc { |s| s['file'].blank? }
 
 		has_many :documents, ->{ order(position: :asc) }, as: :documentable, :dependent => :destroy
 		accepts_nested_attributes_for :documents, allow_destroy: true
@@ -37,8 +37,8 @@ module Rhinocatalog
 			videos.find_by(resolution_type: Video::VIDEO_TYPE_HD)
 		end
 		def hd_video=(new_video)
-			videos.where(resolution_type: Video::VIDEO_TYPE_HD).destroy_all
-			videos(1) << Video.new(type: Video::VIDEO_TYPE_HD, file: new_video)
+			videos.where(resolution_type: Video::VIDEO_TYPE_HD).destroy_all			
+			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_HD, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
 		end
 
 		def sd_video
@@ -46,7 +46,7 @@ module Rhinocatalog
 		end
 		def sd_video=(new_video)
 			videos.where(resolution_type: Video::VIDEO_TYPE_SD).destroy_all
-			videos(1) << Video.new(type: Video::VIDEO_TYPE_SD, file: new_video)
+			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_SD, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
 		end
 
 		def ipad_video
@@ -54,7 +54,7 @@ module Rhinocatalog
 		end
 		def ipad_video=(new_video)
 			videos.where(resolution_type: Video::VIDEO_TYPE_43).destroy_all
-			videos(1) << Video.new(type: Video::VIDEO_TYPE_43, file: new_video)
+			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_43, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
 		end
 
 		def as_json(options = {})
@@ -66,7 +66,7 @@ module Rhinocatalog
 		end
 
 		def video
-			{ hd: hd_video, sd: hd_video, ipad: hd_video } 
+			{ hd: hd_video, sd: sd_video, ipad: ipad_video } 
 		end	
 
 		protected

@@ -40,7 +40,7 @@
 			.control-group
 				= f.label :description, class: 'control-label'
 				.controls
-					= f.text_area :description, class: 'span12' 
+					= f.text_area :description, rows: 8, class: 'span12' 
 
 				
 	.row-fluid
@@ -56,9 +56,10 @@
 			%legend Videos		
 			= render 'videos', f: f
 
-	/ .row-fluid
-	/ 	.span10.offset1			
-	/ 		= render 'documents', f: f
+	.row-fluid
+		.span10.offset1	
+			%legend Documents		
+			= render 'documents', f: f
 
 
 	.form-actions
@@ -68,6 +69,6 @@
 			= link_to t("_BTN_CANCEL"), category_products_path(@category), class: "btn" 
 
 - content_for :javascript do
-	= stylesheet_link_tag  "rhinocatalog/images", media: "all" 
-	= javascript_include_tag "rhinocatalog/images" 
+	= stylesheet_link_tag  "rhinocatalog/products", media: "all" 
+	= javascript_include_tag "rhinocatalog/products" 
 

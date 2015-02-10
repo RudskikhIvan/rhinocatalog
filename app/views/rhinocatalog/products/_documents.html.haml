@@ -1,25 +1,26 @@
-= hidden_field_tag :redirect__to, request.fullpath, class: 'redirect_to'
-
-- new_image = capture do
+- new_doc = capture do
 	- if !f.object.present?
 		- f.object = Product.new
 
-	- if f.object.images.all? { |doc| doc.persisted? }
-		- f.object.images.build
+	- if f.object.documents.all? { |doc| doc.persisted? }
+		- f.object.documents.build
 
-.row
-	.image-list.form-group.span12
-		= f.fields_for :images do |ff|	
-			- if ff.object.file.present?
-				.media.pull-left{style: 'margin: 5px;'}
-					.media-object{ style: 'width: 120px; height: 120px;position: relative;'}
-						.actions							
-							%a{href: "#", data: {behavior: "remove_image", remove_html: ff.hidden_field(:_destroy, value: "1")}}
-								%span.icon-remove-sign
-						= link_to ff.object.file.url, class: 'image', data: { fancybox_group: :gallery }, title: ff.object.name do 
-							= image_tag ff.object.file.thumb.url
-			- else
+.document-list.form-group
+	= f.fields_for :documents do |ff|	
+		.control-group.media.pull-left{ style: 'margin-top:0;'}
+			.controls
+				- if ff.object.file.present?
+					= link_to "Show document", ff.object.file.url, target: "_blank"
+					or
+					%a{ href: "#", data: {behavior: "remove_video", remove_html: ff.hidden_field(:_destroy, value: "1")} }
+						delete
+
+				%br
+				= ff.text_field :name, placeholder: 'Document name'
+				%br
 				= ff.file_field :file
+				%hr
+
 
 
 

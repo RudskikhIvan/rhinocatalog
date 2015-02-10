@@ -1,34 +1,4 @@
-/ = hidden_field_tag :redirect__to, request.fullpath, class: 'redirect_to'
-/ - new_image = capture do
-/ 	- if !f.object.present?
-/ 		- f.object = Product.new
-
-/ 	- if f.object.hd_video.all? { |doc| doc.persisted? }
-/ 		- f.object.hd_video.build
-
-/ - num = 0
-/ .row
-/ 	.video-list.form-group.span12
-/ 		= f.fields_for :hd_video do |ff|	
-/ 			- num += 1
-/ 			- if ff.object.file.present?
-/ 				.media.pull-left{style: 'margin: 5px;'}
-/ 					.media-object{ style: 'width: 240px; height: 135px;position: relative;'}
-/ 						.actions							
-/ 							%a{href: "#", data: {behavior: "remove_video", remove_html: ff.hidden_field(:_destroy, value: "1")}}
-/ 								%span.icon-remove-sign
-
-
-/ 						%video{width: 240, height: 135, controls: :controls }
-/ 							%source{ src: ff.object.file.url, type: ff.object.file_content_type }
-/ 							Your browser does not support the video tag.
-
-/ 			- else
-/ 				= ff.file_field :file if num < 2
-
-
-
-.control-group.media
+.control-group.media.pull-left{ style: 'margin-top: 15px;'}
 	= f.label :hd_video, class: 'control-label'
 	.controls
 		- if f.object.hd_video.present?
@@ -39,7 +9,7 @@
 			%br
 	= f.file_field :hd_video
 
-.control-group.media
+.control-group.media.pull-left{ style: 'margin-top: 15px;'}
 	= f.label :sd_video, class: 'control-label'
 	.controls
 		- if f.object.sd_video.present?
@@ -50,7 +20,7 @@
 			%br
 	= f.file_field :sd_video
 
-.control-group.media
+.control-group.media.pull-left{ style: 'margin-top: 15px;'}
 	= f.label :ipad_video, class: 'control-label'
 	.controls
 		- if f.object.ipad_video.present?

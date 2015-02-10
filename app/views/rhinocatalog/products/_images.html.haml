@@ -7,19 +7,15 @@
 	- if f.object.images.all? { |doc| doc.persisted? }
 		- f.object.images.build
 
-.row
-	.image-list.form-group.span12
-		= f.fields_for :images do |ff|	
-			- if ff.object.file.present?
-				.media.pull-left{style: 'margin: 5px;'}
-					.media-object{ style: 'width: 120px; height: 120px;position: relative;'}
-						.actions							
-							%a{href: "#", data: {behavior: "remove_image", remove_html: ff.hidden_field(:_destroy, value: "1")}}
-								%span.icon-remove-sign
-						= link_to ff.object.file.url, class: 'image', data: { fancybox_group: :gallery }, title: ff.object.name do 
-							= image_tag ff.object.file.thumb.url
-			- else
-				= ff.file_field :file
-
-
-
+.image-list.form-group
+	= f.fields_for :images do |ff|	
+		- if ff.object.file.present?
+			.media.pull-left{style: 'margin: 5px;'}
+				.media-object{ style: 'width: 120px; height: 120px;position: relative;'}
+					.actions							
+						%a{href: "#", data: {behavior: "remove_image", remove_html: ff.hidden_field(:_destroy, value: "1")}}
+							%span.icon-remove-sign
+					= link_to ff.object.file.url, class: 'image', data: { fancybox_group: :gallery }, title: ff.object.name do 
+						= image_tag ff.object.file.thumb.url
+		- else
+			= ff.file_field :file

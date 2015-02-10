@@ -26,7 +26,7 @@ module Rhinocatalog
 		# Add a white list of extensions which are allowed to be uploaded.
 		# For images you might use something like this:
 		def extension_white_list
-			%w(pdf doc docx txt)
+			%w(pdf doc docx txt xls xlsx)
 		end  
 
 		def filename

@@ -27,7 +27,7 @@ module Rhinocatalog
 		# accepts_nested_attributes_for :videos, allow_destroy: true#, reject_if: proc { |s| s['file'].blank? }
 
 		has_many :documents, ->{ order(position: :asc) }, as: :documentable, :dependent => :destroy
-		accepts_nested_attributes_for :documents, allow_destroy: true
+		accepts_nested_attributes_for :documents, allow_destroy: true, reject_if: :all_blank
 
 		acts_as_list scope: :category_id
 

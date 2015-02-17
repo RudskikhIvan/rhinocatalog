@@ -20,7 +20,7 @@ module Rhinocatalog
 	    # protect_from_forgery with: :null_session
 
 	    # skip_before_action :verify_authenticity_token
-	    prepend_before_action :check_if_user_has_access_to_api
+	    # prepend_before_action :check_if_user_has_access_to_api
 
 	    # we throw CanCan::AccessDenied manually
 	    rescue_from CanCan::AccessDenied do |exception|

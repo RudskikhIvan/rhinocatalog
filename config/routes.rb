@@ -1,6 +1,6 @@
 Rhinocatalog::Engine.routes.draw do
-    devise_for :users, class_name: "Rhinoart::User", module: :devise, 
-        :controllers => { :sessions => "rhinoart/sessions", :passwords => "rhinoart/passwords"  } 
+    # devise_for :users, class_name: "Rhinoart::User", module: :devise, 
+    #     :controllers => { :sessions => "rhinoart/sessions", :passwords => "rhinoart/passwords"  } 
         
 	scope "(:locale)", locale: /ru|en/ do 
         root :to => 'categories#index'
@@ -13,6 +13,10 @@ Rhinocatalog::Engine.routes.draw do
 
     namespace :api do 
         scope :v1 do
+            resources :users, only: [:create, :show] do
+                post :authorize, on: :collection
+                post :request_access, on: :collection
+            end            
             resources :categories, only: [:index, :show]
             resources :products, only: [:index, :show]
         end

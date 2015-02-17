@@ -28,18 +28,56 @@ require File.expand_path('../../app/models/rhinoart/user', Rhinoart::Engine.call
 
 module Rhinoart
 	class User < ActiveRecord::Base
+		# before_validation :set_api_token
+		after_initialize :set_api_token, :split_api_role
+		before_save :join_api_roles
 
 		# SAFE_INFO_ACCESSORS = [:locales]
 		# store :info, accessors: SAFE_INFO_ACCESSORS, coder: JSON
 		validates :name, presence: true
 
 		ADMIN_PANEL_ROLE_CATALOG_MANAGER = "Catalog Manager"
-
 		ADMIN_PANEL_ROLES.push(ADMIN_PANEL_ROLE_CATALOG_MANAGER)
+
+		API_ROLE_USER_MOBILE_APP = "Mobile Application User"
+		API_ROLES = [API_ROLE_USER_MOBILE_APP]
 
 		def locales=(value)
 			value.reject! { |l| l.empty? }
 			super
 		end
+
+		def has_access_to_api?
+			res = false
+			begin
+				API_ROLES.each do |role|
+					return (api_role.include? role) if (api_role.include? role) == true
+				end
+			rescue
+				return false
+			end
+
+			return res
+		end 
+
+		private
+			def set_api_token
+				if api_token.blank?
+					self.api_token = SecureRandom.hex(17) 
+					self.save
+				end
+			end
+
+			def join_api_roles
+				if self.api_role.kind_of?(Array)
+					self.api_role.reject! { |ar| ar.empty? }
+					self.api_role = self.api_role.join(',')
+				end
+			end
+
+			def split_api_role
+				self.api_role = self.api_role.split(',') if self.api_role.present?				
+			end  
+
 	end
 end

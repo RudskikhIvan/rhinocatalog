@@ -1,3 +1,3 @@
 module Rhinocatalog
-  VERSION = "0.0.10"
+  VERSION = "0.1.2"
 end

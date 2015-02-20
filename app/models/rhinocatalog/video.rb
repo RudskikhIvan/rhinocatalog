@@ -33,6 +33,8 @@ module Rhinocatalog
 
 		VIDEO_TYPES = local_constants.select { |const| const.to_s.starts_with? "VIDEO_TYPE_" }
 
+		has_paper_trail
+
 	    def as_json(options = {})
 	        options[:only] ||= [:id, :name, :file]
 	        options[:methods] ||= [:file_size]

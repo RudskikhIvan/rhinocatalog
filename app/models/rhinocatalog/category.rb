@@ -28,6 +28,8 @@ module Rhinocatalog
 
 		validates_uniqueness_of :name, :slug, :scope => :parent_id
 
+		has_paper_trail
+
 		def self.root
 			where parent_id: nil
 		end

@@ -33,6 +33,8 @@ module Rhinocatalog
 
 		validates_uniqueness_of :name, :slug, :scope => :category_id
 
+		has_paper_trail
+
 		def hd_video
 			videos.find_by(resolution_type: Video::VIDEO_TYPE_HD)
 		end

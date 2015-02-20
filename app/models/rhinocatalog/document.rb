@@ -26,6 +26,8 @@ module Rhinocatalog
 		mount_uploader :file, DocumentUploader
 	    acts_as_list scope: [:documentable_id, :documentable_type]
 
+	    has_paper_trail
+
 	    def as_json(options = {})
 	        options[:only] ||= [:id, :name, :file]
 	        options[:methods] ||= [:file_size]

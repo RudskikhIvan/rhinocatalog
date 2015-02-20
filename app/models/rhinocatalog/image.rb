@@ -26,6 +26,8 @@ module Rhinocatalog
 		mount_uploader :file, ImageUploader
 	    acts_as_list scope: [:imageable_id, :imageable_type]
 
+	    has_paper_trail
+
 	    def as_json(options = {})
 	        options[:only] ||= [:id, :name, :file, :tags, :alt]
 	        options[:methods] ||= [:file_size]

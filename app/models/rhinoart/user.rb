@@ -28,13 +28,9 @@ require File.expand_path('../../app/models/rhinoart/user', Rhinoart::Engine.call
 
 module Rhinoart
 	class User < ActiveRecord::Base
-		# before_validation :set_api_token
+		before_validation :set_api_token
 		after_initialize :set_api_token, :split_api_role
-		before_save :join_api_roles
-
-		# SAFE_INFO_ACCESSORS = [:locales]
-		# store :info, accessors: SAFE_INFO_ACCESSORS, coder: JSON
-		validates :name, presence: true
+		# before_save :join_api_roles
 
 		ADMIN_PANEL_ROLE_CATALOG_MANAGER = "Catalog Manager"
 		ADMIN_PANEL_ROLES.push(ADMIN_PANEL_ROLE_CATALOG_MANAGER)
@@ -64,7 +60,6 @@ module Rhinoart
 			def set_api_token
 				if api_token.blank?
 					self.api_token = SecureRandom.hex(17) 
-					self.save
 				end
 			end
 

@@ -3,7 +3,7 @@ require_dependency "rhinocatalog/application_controller"
 module Rhinocatalog
 	class Api::BaseController < ApplicationController
 	    # include ApplicationHelper
-	    # before_filter :check_if_user_has_access_to_api
+	    before_filter :check_if_user_has_access_to_api
 	    # caches_action :index, :show, expires_in: 10.minutes, :cache_path => Proc.new { |c| "#{c.params}" }
 
 	    class InvalidApiKeyError < StandardError; end

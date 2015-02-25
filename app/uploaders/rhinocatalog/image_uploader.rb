@@ -23,7 +23,7 @@ module Rhinocatalog
 			"uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
 		end
 
-		process :resize_to_limit => [736, nil]  
+		# process :resize_to_limit => [736, nil]  
 
 		version :large do
 			process :resize_to_limit => [736, nil]  

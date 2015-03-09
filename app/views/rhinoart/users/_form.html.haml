@@ -1,0 +1,122 @@
+= form_for @user, {html: {class: 'form-horizontal'}} do |f|
+	= render 'rhinocatalog/shared/error_messages', object: f.object
+	= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present?
+
+	.control-group
+		= f.label :email, class: 'control-label'
+		.controls
+			= f.email_field :email, required: true
+
+	.control-group
+		= f.label :name, class: 'control-label'
+		.controls
+			= f.text_field :name
+
+
+	.control-group
+		= f.label :password, class: 'control-label'
+		.controls
+			= f.password_field :password
+			%small.help-inline
+				8+ characters
+
+	- if can? :manage, :user_roles
+		.control-group
+			= f.label :admin_role, class: 'control-label'
+			.controls
+				- Rhinoart::User::ADMIN_PANEL_ROLES.each do |ar| 
+					= label_tag ar do
+						= check_box_tag "user[admin_role][]", ar, @user.admin_role.present? ? @user.admin_role.include?(ar) : nil
+						= ar
+
+	- if can? :manage, :users
+		- begin
+			- Rhinocatalog::Engine
+			.control-group
+				= f.label :api_role, class: 'control-label'
+				.controls
+					- Rhinoart::User::API_ROLES.each do |ar| 
+						= label_tag ar do
+							= check_box_tag "user[api_role][]", ar, @user.api_role.present? ? @user.api_role.include?(ar) : nil
+							= ar			
+		- rescue
+
+	- if can? :manage, :users
+		.control-group
+			= f.label :frontend_role, class: 'control-label'
+			.controls
+				= f.select :frontend_role, Rhinoart::User::FRONTEND_ROLES, include_blank: true
+
+
+	.control-group
+		= f.label :approved, class: 'control-label'
+		.controls
+			= f.check_box :approved
+
+	%legend Address
+	.control-group
+		= f.label :street, class: 'control-label'
+		.controls
+			= f.text_field :street
+	
+	.control-group
+		= f.label :city, class: 'control-label'
+		.controls
+			= f.text_field :city
+	
+	.control-group
+		= f.label :state, class: 'control-label'
+		.controls
+			= f.text_field :state
+	
+	.control-group
+		= f.label :zip, class: 'control-label'
+		.controls
+			= f.text_field :zip
+
+
+	%legend Interest Level
+	.control-group
+		.controls
+			= f.label :interest_level_exploring_additional_product_options, class: 'radio' do 
+				= f.radio_button :interest_level, 'exploring_additional_product_options'
+				Exploring additional product options
+
+	.control-group
+		.controls
+			= f.label :interest_level_educational_information, class: 'radio' do
+				= f.radio_button :interest_level, 'educational_information'
+				Educational information
+
+	.control-group
+		.controls
+			= f.label :interest_level_sales_position_opportunity, class: 'radio' do
+				= f.radio_button :interest_level, 'sales_position_opportunity'
+				Sales position opportunity
+
+	.control-group
+		.controls
+			= f.label :interest_level_training, class: 'radio' do 
+				= f.radio_button :interest_level, 'training'
+				Training
+
+	.control-group
+		.controls
+			= f.label :interest_level_other, class: 'radio' do 
+				= f.radio_button :interest_level, 'other'
+				Other
+
+	/ .control-group
+	/   = f.label :other, class: 'control-label'
+	/   .controls
+	/     = f.text_field :interest_level_other
+
+
+	
+	.form-actions
+		= f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Saving...'}
+		- if f.object.persisted?
+			%span.muted or
+			= link_to 'Clear all access rights', [f.object], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger'
+
+

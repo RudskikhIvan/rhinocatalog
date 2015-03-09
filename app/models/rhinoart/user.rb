@@ -25,12 +25,20 @@
 #
 
 require File.expand_path('../../app/models/rhinoart/user', Rhinoart::Engine.called_from)
-
+# begin
+# 	require File.expand_path('../../app/models/rhinoart/user', Rhinocatalog::Engine.called_from)	
+# rescue
+# 	require File.expand_path('../../app/models/rhinoart/user', Rhinoart::Engine.called_from)
+# end
 module Rhinoart
 	class User < ActiveRecord::Base
 		before_validation :set_api_token
-		after_initialize :split_api_role
-		before_save :join_api_roles
+	    # before_save :join_api_roles
+	    # after_initialize :split_api_role
+
+
+		SAFE_INFO_ACCESSORS = [:street, :city, :state, :zip, :interest_level]
+		store :info, accessors: SAFE_INFO_ACCESSORS, coder: JSON
 
 		ADMIN_PANEL_ROLE_CATALOG_MANAGER = "Catalog Manager"
 		ADMIN_PANEL_ROLES.push(ADMIN_PANEL_ROLE_CATALOG_MANAGER)
@@ -44,7 +52,6 @@ module Rhinoart
 		end
 
 		def has_access_to_api?
-			res = false
 			begin
 				API_ROLES.each do |role|
 					return (api_role.include? role) if (api_role.include? role) == true
@@ -53,8 +60,8 @@ module Rhinoart
 				return false
 			end
 
-			return res
-		end 
+			return false
+		end 	
 
 		private
 			def set_api_token
@@ -63,16 +70,16 @@ module Rhinoart
 				end
 			end
 
-			def join_api_roles
-				if self.api_role.kind_of?(Array)
-					self.api_role.reject! { |ar| ar.empty? }
-					self.api_role = self.api_role.join(',')
-				end
-			end
+			# def join_api_roles
+			# 	if self.api_role.kind_of?(Array)
+			# 		self.api_role.reject! { |ar| ar.empty? }
+			# 		self.api_role = self.api_role.join(',')
+			# 	end
+			# end
 
-			def split_api_role
-				self.api_role = self.api_role.split(',') if self.api_role.present?				
-			end  
+			# def split_api_role
+			# 	self.api_role = self.api_role.split(',') if self.api_role.present?				
+			# end  
 
 	end
 end

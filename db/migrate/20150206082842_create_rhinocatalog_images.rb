@@ -1,5 +1,5 @@
 class CreateRhinocatalogImages < ActiveRecord::Migration
-	def change
+	def self.up
 		create_table :rhinocatalog_images do |t|
 			t.references :imageable, polymorphic: true
 
@@ -16,5 +16,9 @@ class CreateRhinocatalogImages < ActiveRecord::Migration
 		add_index :rhinocatalog_images, :name
 		add_index :rhinocatalog_images, :file
 		add_index :rhinocatalog_images, :position
+	end
+
+	def self.down
+		drop_table :rhinocatalog_images
 	end
 end

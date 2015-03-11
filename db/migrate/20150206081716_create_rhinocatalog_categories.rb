@@ -1,5 +1,5 @@
 class CreateRhinocatalogCategories < ActiveRecord::Migration
-	def change
+	def self.up
 		create_table :rhinocatalog_categories do |t|
 			t.references :parent, index: true
 			t.string :name
@@ -12,5 +12,9 @@ class CreateRhinocatalogCategories < ActiveRecord::Migration
 		end
 		add_index :rhinocatalog_categories, :name, :unique => true 
 		add_index :rhinocatalog_categories, :slug, :unique => true 
+	end
+
+	def self.down
+		drop_table :rhinocatalog_categories
 	end
 end

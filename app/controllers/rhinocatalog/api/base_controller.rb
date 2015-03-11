@@ -58,7 +58,6 @@ module Rhinocatalog
 	    private
 	        def check_if_user_has_access_to_api
                 @api_user = Rhinoart::User.find_by(api_token: params[:api_token])
-
 	            if @api_user.nil?
 	                raise InvalidApiKeyError.new
 	            end

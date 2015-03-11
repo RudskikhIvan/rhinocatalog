@@ -1,5 +1,5 @@
 class CreateRhinocatalogDocuments < ActiveRecord::Migration
-	def change
+	def self.up
 		create_table :rhinocatalog_documents do |t|
 			t.references :documentable, polymorphic: true
 
@@ -16,5 +16,9 @@ class CreateRhinocatalogDocuments < ActiveRecord::Migration
 		add_index :rhinocatalog_documents, :name
 		add_index :rhinocatalog_documents, :file
 		add_index :rhinocatalog_documents, :position
+	end
+
+	def self.down
+		drop_table :rhinocatalog_documents
 	end
 end

@@ -1,3 +1,6 @@
 - provide(:title, t(:_NEW_PAGE)) 
 
 = render 'form'
+
+- content_for :javascript do
+	= append_javascript('jquery.remotipart')

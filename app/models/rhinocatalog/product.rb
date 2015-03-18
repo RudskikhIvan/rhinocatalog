@@ -17,7 +17,7 @@ module Rhinocatalog
 	class Product < ActiveRecord::Base
 		before_validation :name_to_slug
 
-		belongs_to :categiry, class_name: self.to_s
+		belongs_to :category, class_name: self.to_s
 
 		has_many :images, ->{ order(position: :asc) }, as: :imageable, :dependent => :destroy
 		accepts_nested_attributes_for :images, allow_destroy: true
@@ -31,6 +31,7 @@ module Rhinocatalog
 
 		acts_as_list scope: :category_id
 
+		validates :name, :slug, presence: true
 		validates_uniqueness_of :name, :slug, :scope => :category_id
 
 		has_paper_trail

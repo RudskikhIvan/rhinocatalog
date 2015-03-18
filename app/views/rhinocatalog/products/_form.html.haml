@@ -1,12 +1,19 @@
 = form_for [@category, @product], remote: true do |f| 
 	- if f.object.new_record?
-		%legend= t(:product)
+		%legend= "#{t('category')}: #{@category.name} / #{t('product')} - New record"
 	- else
-		%legend= "#{t(:product)}: \"#{@product.name}\""
+		%legend= "#{t('category')}: #{@category.name} / #{t('product')}: #{@product.name}"
 	= render 'rhinocatalog/shared/error_messages', object: f.object
 
+	#errors
 	.row-fluid
-		.span6.offset1
+		.span4.offset1
+			.control-group
+				= f.label :name, class: 'control-label'
+				.controls
+					= f.text_field :name, class: 'span12' 
+
+		.span2
 			= f.label :slug, class: 'control-label'
 			.controls
 				= f.text_field :slug, class: 'span12'
@@ -26,14 +33,6 @@
 			.controls
 				= f.check_box :published, class: 'span12'
 
-
-
-	.row-fluid
-		.span10.offset1
-			.control-group
-				= f.label :name, class: 'control-label'
-				.controls
-					= f.text_field :name, class: 'span12' 
 
 	.row-fluid
 		.span10.offset1

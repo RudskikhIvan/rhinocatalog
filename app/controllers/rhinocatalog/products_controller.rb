@@ -18,36 +18,39 @@ module Rhinocatalog
 			@product = Product.new(product_params)
 			@category = Category.find(params[:category_id])
 
-			if @product.save
-				redirect_to [@category, :products]
-			else
-				render action: 'new'
-			end			
+			respond_to do |format|
+				if @product.save
+					if params[:continue].present? 
+						@redirect_to = edit_category_product_path(@category, @product)
+					else
+						@redirect_to = category_products_path(@category)
+					end						
+					format.html { redirect_to @redirect_to }
+					format.js {}
+				else
+					format.html { render action: 'new' }
+					format.js {}
+				end
+			end	
 		end
 
 		def edit
 		end
 
 		def update
-			if @product.update(product_params)
-				respond_to do |format|
-					format.html {
-						if params[:continue].present? 
-							redirect_to [:edit, @category, @product]
-						else
-							redirect_to [@category, :products]
-						end	
-					}
-					format.js {
-						if params[:continue].present? 
-							@redirect_to = edit_category_product_path(@category, @product)
-						else
-							@redirect_to = category_products_path(@category)
-						end							
-					}
-				end				
-			else
-				render action: 'edit'
+			respond_to do |format|
+				if @product.update(product_params)
+					if params[:continue].present? 
+						@redirect_to = edit_category_product_path(@category, @product)
+					else
+						@redirect_to = category_products_path(@category)
+					end						
+					format.html { redirect_to @redirect_to }
+					format.js {}
+				else
+					format.html { render action: 'edit' }
+					format.js {}
+				end
 			end	
 		end
 

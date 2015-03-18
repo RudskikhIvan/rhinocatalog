@@ -106,12 +106,16 @@
 				= f.radio_button :interest_level, 'other'
 				Other
 
+
 	/ .control-group
 	/   = f.label :other, class: 'control-label'
 	/   .controls
 	/     = f.text_field :interest_level_other
 
-
+	.control-group
+		= f.label :api_token, class: 'control-label'
+		.controls
+			= f.text_field :api_token, disabled: true, class: 'span5'
 	
 	.form-actions
 		= f.submit 'Save', class: 'btn btn-primary', data: { disable_with: 'Saving...'}

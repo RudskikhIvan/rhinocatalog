@@ -30,14 +30,25 @@ module Rhinocatalog
 
 		def update
 			if @product.update(product_params)
-				if params[:continue].present? 
-					redirect_to [:edit, @category, @product]
-				else
-					redirect_to [@category, :products]
+				respond_to do |format|
+					format.html {
+						if params[:continue].present? 
+							redirect_to [:edit, @category, @product]
+						else
+							redirect_to [@category, :products]
+						end	
+					}
+					format.js {
+						if params[:continue].present? 
+							@redirect_to = edit_category_product_path(@category, @product)
+						else
+							@redirect_to = category_products_path(@category)
+						end							
+					}
 				end				
 			else
 				render action: 'edit'
-			end			
+			end	
 		end
 
 		def destroy

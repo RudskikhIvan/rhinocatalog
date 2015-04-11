@@ -15,13 +15,13 @@ module Rhinocatalog
 			Rhinoart::User::API_ROLES = [Rhinoart::User::API_ROLE_USER_MOBILE_APP]
 		end
 
-		def has_access_to_api?
-			Rhinoart::User::API_ROLES.each do |role|
-				return (api_role.include? role) if api_role.present?
-			end
-			return false
-		end 
-
+	    def has_access_to_api?
+	        Rhinoart::User::API_ROLES.each do |role|
+	            res = has_role? role
+	            return res if res == true
+	        end
+	        false
+	    end
 		private
 			def set_api_token
 				if api_token.blank?

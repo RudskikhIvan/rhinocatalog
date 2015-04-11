@@ -12,12 +12,12 @@ module Rhinocatalog
 			Rhinoart::User::API_ROLES = [Rhinoart::User::API_ROLE_USER_MOBILE_APP]
 
 			Rhinoart::User::SAFE_INFO_ACCESSORS = [:street, :city, :state, :zip, :interest_level]
-			Rhinoart::User::store :info, accessors: Rhinoart::User::SAFE_INFO_ACCESSORS, coder: JSON      
+			Rhinoart::User::store :info, accessors: Rhinoart::User::SAFE_INFO_ACCESSORS, coder: JSON    
 		end
 
 		def has_access_to_api?
 			Rhinoart::User::API_ROLES.each do |role|
-				return (api_role.include? role) if (api_role.include? role) == true
+				return (api_role.include? role) if api_role.present?
 			end
 			return false
 		end 

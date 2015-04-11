@@ -44,7 +44,7 @@ module Rhinocatalog
 	    end
 
 	    rescue_from InvalidAccessRightError do |exception|
-	      render json: {message: "Access Denied (user has no access right)", error_code: Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT}, status: 405
+	      render json: {message: "Access Denied (user has no access right)", error_code: Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT}, status: 403
 	    end
 
 	    rescue_from ParamTypeError do |exception|

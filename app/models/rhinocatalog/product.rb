@@ -63,15 +63,22 @@ module Rhinocatalog
 
 		def as_json(options = {})
 			options[:only] ||= [:id, :category_id, :name, :position]
-			options[:methods] ||= [:images, :video, :documents, :clean_description]
+			options[:methods] ||= [:first_image, :video, :documents, :clean_description]
 
 			super(options)
-			super.tap { |hash| hash["description"] = hash.delete "clean_description" }
+			super.tap { |hash| 
+				hash["description"] = hash.delete "clean_description" 
+				hash["images"] = hash.delete "first_image"
+			}
 		end
 
 		def video
 			{ hd: hd_video, sd: sd_video, ipad: ipad_video } 
 		end	
+
+		def first_image
+			self.images.first if self.images.any?
+		end
 
 		def clean_description
 			require 'sanitize'

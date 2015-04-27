@@ -9,7 +9,7 @@
 #  file              :string(255)
 #  file_content_type :string(255)
 #  position          :integer
-#  info              :text
+#  info              :text(65535)
 #  created_at        :datetime
 #  updated_at        :datetime
 #

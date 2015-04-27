@@ -2,15 +2,16 @@
 #
 # Table name: rhinocatalog_products
 #
-#  id          :integer          not null, primary key
-#  category_id :integer
-#  name        :string(255)
-#  slug        :string(255)      not null
-#  description :text
-#  position    :integer
-#  published   :boolean          default(TRUE)
-#  created_at  :datetime
-#  updated_at  :datetime
+#  id               :integer          not null, primary key
+#  category_id      :integer
+#  name             :string(255)
+#  slug             :string(255)      not null
+#  description      :text(65535)
+#  position         :integer
+#  published        :boolean          default(TRUE)
+#  created_at       :datetime
+#  updated_at       :datetime
+#  show_on_frontend :boolean          default(TRUE)
 #
 
 module Rhinocatalog

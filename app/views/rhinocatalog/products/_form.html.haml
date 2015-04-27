@@ -7,23 +7,24 @@
 
 	#errors
 	.row-fluid
-		.span4.offset1
+		.span5.offset1
 			.control-group
 				= f.label :name, class: 'control-label'
 				.controls
 					= f.text_field :name, class: 'span12' 
 
-		.span2
+		.span5
 			= f.label :slug, class: 'control-label'
 			.controls
 				= f.text_field :slug, class: 'span12'
 
-		.span2
+	.row-fluid
+		.span2.offset1
 			= f.label :category_id, class: 'control-label'
 			.controls
 				= f.select :category_id, options_for_select(Rhinocatalog::Category.tree_for_select_list, @category.id), {}, {class: 'span12'}
 
-		.span1
+		.span2
 			= f.label :position, class: 'control-label'
 			.controls
 				= f.number_field :position, class: 'span12'
@@ -33,21 +34,25 @@
 			.controls
 				= f.check_box :published, class: 'span12'
 
+		.span2
+			= f.label :show_on_frontend, class: 'control-label'
+			.controls
+				= f.check_box :show_on_frontend, class: 'span12'
+
+	%hr
 
 	.row-fluid
 		.span10.offset1
 			.control-group
 				= f.label :description, class: 'control-label'
 				.controls
-					= f.text_area :description, rows: 8, class: 'span12' 
+					= f.text_area :description, rows: 8, class: 'span12 redactor' 
 
 				
 	.row-fluid
 		.span10.offset1	
 			%legend Images		
 			= render 'images', f: f
-			/ - if !f.object.new_record?
-			/ 	= link_to 'Add image', images_path(attachable_id: f.object.id, attachable_type: f.object.class.name), remote: true, class: 'btn btn-sm btn-info', data: { target: "#imageForm", toggle: "modal"} 
 
 	%hr
 	.row-fluid
@@ -71,3 +76,9 @@
 	= stylesheet_link_tag  "rhinocatalog/products", media: "all" 
 	= javascript_include_tag "rhinocatalog/products" 
 
+
+	= stylesheet_link_tag    "redactor/redactor"
+	= javascript_include_tag "redactor/redactor"
+
+	:javascript
+		$('textarea.redactor').redactor();

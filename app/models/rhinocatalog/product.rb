@@ -68,7 +68,7 @@ module Rhinocatalog
 			super(options)
 			super.tap { |hash| 
 				hash["description"] = hash.delete "clean_description" 
-				hash["images"] = hash.delete "first_image"
+				# hash["images"] = hash.delete "first_image"
 			}
 		end
 

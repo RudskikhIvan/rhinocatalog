@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.add_dependency "actionpack-action_caching"
   s.add_dependency 'devise'
   s.add_dependency 'remotipart', '~> 1.2'
+  s.add_dependency 'sanitize'
 end

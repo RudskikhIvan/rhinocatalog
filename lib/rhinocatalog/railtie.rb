@@ -22,7 +22,7 @@ module Rhinocatalog
 				    # the extension used for the API
 				    :api_extension_type => :json,
 				    # the output location where your .json files are written to
-				    :api_file_path => "public",
+				    :api_file_path => "public/apidocs",
 				    # the URL base path to your API
 				    :base_path => "http://valerismedical.com/admin/catalog/"
 				  }
@@ -32,10 +32,9 @@ module Rhinocatalog
 					Rhinocatalog::Engine
 				end
 
-				# def self.transform_path(path, api_version)
-				# 	# "http://localhost:3000/api/v1/docs/#{path}"
-				# 	"http://localhost:3000/admin/catalog/api/v1/#{path}"
-				# end
+				def self.transform_path(path, api_version)
+					"http://valerismedical.com/apidocs/#{path}"
+				end
 
 			end
 

@@ -4,8 +4,18 @@ module Rhinocatalog
 	class Api::UsersController < Api::BaseController
 		skip_before_action :check_if_user_has_access_to_api, only: [:create, :authorize, :request_access]
 		# caches_action :authorize, :show, expires_in: 60.seconds, unless_exist: true
+		swagger_controller :users, "User Management"
 
 		# POST /api/v1/users.json
+		swagger_api :create do
+			summary "Creates a new User"
+			param :form, :first_name, :string, :required, "First name"
+			param :form, :last_name, :string, :required, "Last name"
+			param :form, :email, :string, :required, "Email address"
+			param_list :form, :api_role, :string, :required, "API Role", [ Rhinoart::User::API_ROLE_USER_MOBILE_APP ]
+			response :unauthorized
+			response :unprocessable_entity, Api::ERROR_USER_VALIDATION_ERROR
+		end		
 		def create
 			user = Rhinoart::User.new(user_params)
 			user.api_role = Rhinoart::User::API_ROLE_USER_MOBILE_APP if !user.api_role.present?
@@ -22,6 +32,16 @@ module Rhinocatalog
 		#
 		# POST /api/v1/users/authorize.json?email=some@email.com&password=1234
 		#
+		swagger_api :authorize do
+			summary "Authorize user. Returns API token if user was approved"
+			param :form, :email, :string, :required, "Email"
+			param :form, :password, :string, :required, "Password"
+			response :unauthorized, Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Api::ERROR_USER_NOT_FOUND
+			response 403, Api::ERROR_PASSWORD_MISMATCH
+			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE			
+		end			
 		def authorize
 			api_user = Rhinoart::User.find_by(email: user_params[:email], approved: true)
 
@@ -45,6 +65,16 @@ module Rhinocatalog
 		# GET /api/v1/users/<user_id>.json
 		#
 		# {"id":22,"email":"test@example.com","created_at":"2013-05-29T02:35:29.124Z","updated_at":"2013-05-29T02:35:29.124Z","admin_role":null,"frontend_role":null,"approved":false,"first_name":null,"last_name":null,"phone_no":null,"recommender":null,"interested_in":null,"notes":null,"company_name":null}
+		swagger_api :show do
+			summary "Show user data"
+			param :path, :id, :integer, :required, "User id"
+			param :query, :api_token, :string, :required, "Api Token"
+			response :unauthorized, Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
+			response :unauthorized, Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
+			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE			
+		end			
 		def show
 			if Rhinoart::User.exists?(params[:id])
 				user = Rhinoart::User.find(params[:id])

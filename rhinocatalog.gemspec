@@ -23,4 +23,6 @@ Gem::Specification.new do |s|
   s.add_dependency 'devise'
   s.add_dependency 'remotipart', '~> 1.2'
   s.add_dependency 'sanitize'
+  s.add_dependency 'swagger-docs'
+  # s.add_dependency 'swagger-ui_rails'
 end

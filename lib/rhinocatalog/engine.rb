@@ -3,6 +3,7 @@
 require "rhinocatalog/ability"
 require "rhinocatalog/user"
 require "remotipart"
+require 'swagger/docs'
 
 module Rhinocatalog
   class Engine < ::Rails::Engine

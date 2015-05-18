@@ -20,6 +20,18 @@ module Rhinocatalog
 	        end
 	        false
 	    end
+
+	    def as_json(options = {})
+	        options[:only] ||= [:id, :email, :name, :approved, :api_token]
+	        options[:methods] ||= [:role_name]
+	        super(options)
+	        super.tap { |hash| hash["roles"] = hash.delete "role_name" }
+	    end
+
+	    def role_name
+	    	roles.map(&:name)
+	    end
+
 		private
 			def set_api_token
 				if api_token.blank?

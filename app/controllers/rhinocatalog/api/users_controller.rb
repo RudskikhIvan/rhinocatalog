@@ -9,20 +9,19 @@ module Rhinocatalog
 		# POST /api/v1/users.json
 		swagger_api :create do
 			summary "Creates a new User"
-			param :form, :first_name, :string, :required, "First name"
-			param :form, :last_name, :string, :required, "Last name"
-			param :form, :email, :string, :required, "Email address"
-			param_list :form, :api_role, :string, :required, "API Role", [ Rhinoart::User::API_ROLE_USER_MOBILE_APP ]
+			param :form, 'user[name]', :string, :required, "User Name"
+			param :form, 'user[email]', :string, :required, "Email address"
+			param :form, 'user[password]', :string, :required, "Password"
+			param_list :form, 'user[api_role]', :string, :required, "API Role", [ Rhinoart::User::API_ROLE_USER_MOBILE_APP ]
 			response :unauthorized
 			response :unprocessable_entity, Api::ERROR_USER_VALIDATION_ERROR
 		end		
 		def create
 			user = Rhinoart::User.new(user_params)
-			user.api_role = Rhinoart::User::API_ROLE_USER_MOBILE_APP if !user.api_role.present?
-			user.admin_role = nil
+			user.add_role Rhinoart::User::API_ROLE_USER_MOBILE_APP
 
 			if user.save
-				render json: {message: "User Created"}, status: :created, location: [:api, user]
+				render json: {message: "User Created", user: user}, status: :created, location: [:api, user]
 			else
 				render json: {message: "Can't create user, see 'errors'", errors: user.errors, error_code: Api::ERROR_USER_VALIDATION_ERROR}, status: :unprocessable_entity
 			end
@@ -34,8 +33,8 @@ module Rhinocatalog
 		#
 		swagger_api :authorize do
 			summary "Authorize user. Returns API token if user was approved"
-			param :form, :email, :string, :required, "Email"
-			param :form, :password, :string, :required, "Password"
+			param :form, 'user[email]', :string, :required, "Email"
+			param :form, 'user[password]', :string, :required, "Password"
 			response :unauthorized, Api::ERROR_ACCESS_DENIED
 			response :unauthorized, Api::ERROR_USER_NOT_FOUND
 			response 403, Api::ERROR_PASSWORD_MISMATCH
@@ -59,7 +58,7 @@ module Rhinocatalog
 
 			sign_in api_user
 
-			render json: { email: api_user.email, api_token: api_user.api_token, name: api_user.name, roles: api_user.api_role, frontend_role: api_user.frontend_role }
+			render json: api_user #{ email: api_user.email, api_token: api_user.api_token, name: api_user.name, roles: api_user.roles.map(&:name) }
 		end
 
 		# GET /api/v1/users/<user_id>.json
@@ -98,7 +97,7 @@ module Rhinocatalog
 		private
 
 			def user_params
-				params.require(:user).permit(:name, :email, :password, :frontend_role, *Rhinoart::User::SAFE_INFO_ACCESSORS)
+				params.require(:user).permit(:name, :email, :password, :api_role, *Rhinoart::User::SAFE_INFO_ACCESSORS)
 			end
 	end
 end

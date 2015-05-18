@@ -1,0 +1,60 @@
+!!!
+%html{:lang => I18n.locale.to_s, "xml:lang" => I18n.locale.to_s, :xmlns => "http://www.w3.org/1999/xhtml"}
+  %head
+    %title Swagger UI
+    = javascript_include_tag :swagger_ui
+    = stylesheet_link_tag "//fonts.googleapis.com/css?family=Droid+Sans:400,700"
+    = stylesheet_link_tag :swagger_ui, :media => :all
+    = csrf_meta_tags
+    :javascript
+      $(function () {
+          $.ajaxPrefilter(function (o, options) {
+              options.headers = {'X-CSRF-Token': '\#{form_authenticity_token.to_s}'}
+          });
+      });
+
+      $(function () {
+        window.swaggerUi = new SwaggerUi({
+          url: "http://#{request.host}:#{request.port}/api/swagger/api-docs.json",
+          apiKey: "",
+          dom_id: "swagger-ui-container",
+          supportHeaderParams: false,
+          supportedSubmitMethods: ['get', 'post', 'put'],
+          onComplete: function (swaggerApi, swaggerUi) {
+              log("Loaded SwaggerUI");
+              $('pre code').each(function (i, e) {
+                  hljs.highlightBlock(e)
+              });
+          },
+          onFailure: function (data) {
+              log("Unable to Load SwaggerUI");
+          },
+          docExpansion: "none",
+          sorter: "alpha"
+        });
+
+        $('#input_apiKey').change(function () {
+          var key = $('#input_apiKey')[0].value;
+          log("key: " + key);
+          if (key && key.trim() != "") {
+              log("added key " + key);
+              window.authorizations.add("key", new ApiKeyAuthorization("api_key", key, "query"));
+          }
+        })
+        window.swaggerUi.load();
+      });
+
+
+  %body.swagger-section
+    #header
+      .swagger-ui-wrap
+        %a#logo{:href => "http://swagger.wordnik.com"} Swagger
+        %form#api_selector
+          .input
+            %input#input_baseUrl{:name => "baseUrl", :placeholder => "http://example.com/api", :type => "text"}
+          .input
+            %input#input_apiKey{:name => "apiKey", :placeholder => "api_key", :type => "text"}
+          .input
+            %a#explore{:href => "#"} Explore
+    #message-bar.swagger-ui-wrap &nbsp;
+    #swagger-ui-container.swagger-ui-wrap

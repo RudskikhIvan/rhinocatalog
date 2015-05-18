@@ -13,6 +13,7 @@ Rhinocatalog::Engine.routes.draw do
 
     namespace :api do 
         scope :v1 do
+            get 'docs' => 'documentations#show'
             resources :users, only: [:create, :show] do
                 post :authorize, on: :collection
                 post :request_access, on: :collection

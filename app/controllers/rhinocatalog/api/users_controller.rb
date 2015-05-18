@@ -14,7 +14,7 @@ module Rhinocatalog
 			param :form, 'user[password]', :string, :required, "Password"
 			param_list :form, 'user[api_role]', :string, :required, "API Role", [ Rhinoart::User::API_ROLE_USER_MOBILE_APP ]
 			response :unauthorized
-			response :unprocessable_entity, Api::ERROR_USER_VALIDATION_ERROR
+			response :unprocessable_entity, Rhinocatalog::Api::ERROR_USER_VALIDATION_ERROR
 		end		
 		def create
 			user = Rhinoart::User.new(user_params)
@@ -35,11 +35,11 @@ module Rhinocatalog
 			summary "Authorize user. Returns API token if user was approved"
 			param :form, 'user[email]', :string, :required, "Email"
 			param :form, 'user[password]', :string, :required, "Password"
-			response :unauthorized, Api::ERROR_ACCESS_DENIED
-			response :unauthorized, Api::ERROR_USER_NOT_FOUND
-			response 403, Api::ERROR_PASSWORD_MISMATCH
-			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
-			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE			
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Rhinocatalog::Api::ERROR_USER_NOT_FOUND
+			response 403, Rhinocatalog::Api::ERROR_PASSWORD_MISMATCH
+			response 403, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Rhinocatalog::Api::ERROR_PARAM_TYPE			
 		end			
 		def authorize
 			api_user = Rhinoart::User.find_by(email: user_params[:email], approved: true)
@@ -68,18 +68,18 @@ module Rhinocatalog
 			summary "Show user data"
 			param :path, :id, :integer, :required, "User id"
 			param :query, :api_token, :string, :required, "Api Token"
-			response :unauthorized, Api::ERROR_ACCESS_DENIED
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
-			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
-			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE			
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
+			response 403, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Rhinocatalog::Api::ERROR_PARAM_TYPE			
 		end			
 		def show
 			if Rhinoart::User.exists?(params[:id])
 				user = Rhinoart::User.find(params[:id])
 				render json: user
 			else
-				render json: {message: "User not found", error_code: Api::ERROR_USER_NOT_FOUND}, status: :not_found
+				render json: {message: "User not found", error_code: Rhinocatalog::Api::ERROR_USER_NOT_FOUND}, status: :not_found
 			end
 		end
 

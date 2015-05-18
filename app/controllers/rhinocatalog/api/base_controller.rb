@@ -26,35 +26,35 @@ module Rhinocatalog
 
 	    # we throw CanCan::AccessDenied manually
 	    rescue_from CanCan::AccessDenied do |exception|
-	      render json: {message: exception.message, error_code: Api::ERROR_ACCESS_DENIED}, status: :unauthorized
+	      render json: {message: exception.message, error_code: Rhinocatalog::Api::ERROR_ACCESS_DENIED}, status: :unauthorized
 	    end
 
 	    rescue_from InvalidApiKeyError do |exception|
-	      render json: {message: "Access Denied (invalid API token)", error_code: Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN}, status: :unauthorized
+	      render json: {message: "Access Denied (invalid API token)", error_code: Rhinocatalog::Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN}, status: :unauthorized
 	    end
 
 	    rescue_from UserNotApprovedError do |exception|
-	      render json: {message: "Access Denied (user wasn't approved)", error_code: Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED}, status: :unauthorized
+	      render json: {message: "Access Denied (user wasn't approved)", error_code: Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED}, status: :unauthorized
 	    end
 
 	    rescue_from InvalidPasswordError do |exception|
-	      render json: {message: "Access Denied (email/password mismatch)", error_code: Api::ERROR_PASSWORD_MISMATCH}, status: 403
+	      render json: {message: "Access Denied (email/password mismatch)", error_code: Rhinocatalog::Api::ERROR_PASSWORD_MISMATCH}, status: 403
 	    end
 
 	    rescue_from InvalidEmailError do |exception|
-	      render json: {message: "User with provided email not found", error_code: Api::ERROR_USER_NOT_FOUND}, status: :unauthorized
+	      render json: {message: "User with provided email not found", error_code: Rhinocatalog::Api::ERROR_USER_NOT_FOUND}, status: :unauthorized
 	    end
 
 	    rescue_from InvalidAccessRightError do |exception|
-	      render json: {message: "Access Denied (user has no access right)", error_code: Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT}, status: 403
+	      render json: {message: "Access Denied (user has no access right)", error_code: Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT}, status: 403
 	    end
 
 	    rescue_from ParamTypeError do |exception|
-	      render json: {message: "Params type error", error_code: Api::ERROR_PARAM_TYPE}, status: 500
+	      render json: {message: "Params type error", error_code: Rhinocatalog::Api::ERROR_PARAM_TYPE}, status: 500
 	    end
 
 	    rescue_from NotFoundError do |exception|
-	      render json: {message: "Content Not Found - 404", error_code: Api::ERROR_CONTENT_NOT_FOUND}, status: 404
+	      render json: {message: "Content Not Found - 404", error_code: Rhinocatalog::Api::ERROR_CONTENT_NOT_FOUND}, status: 404
 	    end
 
 	    private

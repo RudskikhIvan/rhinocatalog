@@ -1,4 +1,6 @@
 require "rhinocatalog/engine"
+require "rhinocatalog/api"
+require "rhinocatalog/api/engine"
 
 module Rhinocatalog
 end

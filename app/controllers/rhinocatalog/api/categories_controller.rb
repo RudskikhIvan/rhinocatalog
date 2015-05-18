@@ -7,11 +7,11 @@ module Rhinocatalog
 		swagger_api :index do
 			summary "Fetches all Category items"
 			param :query, :api_token, :string, :required, "Api Token"
-			response :unauthorized, Api::ERROR_ACCESS_DENIED
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
-			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
-			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
+			response 403, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Rhinocatalog::Api::ERROR_PARAM_TYPE
 		end			
 		def index
 			render json: Category.where(published: true)
@@ -21,11 +21,11 @@ module Rhinocatalog
 			summary "Fetches single Category item"
 			param :path, :id, :integer, :required, "Product id"
 			param :query, :api_token, :string, :required, "Api Token"
-			response :unauthorized, Api::ERROR_ACCESS_DENIED
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
-			response :unauthorized, Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
-			response 403, Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
-			response :requested_range_not_satisfiable, Api::ERROR_PARAM_TYPE
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_INVALID_API_TOKEN
+			response :unauthorized, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_WASNT_APPROVED
+			response 403, Rhinocatalog::Api::ERROR_ACCESS_DENIED_USER_HAS_NO_ACCESS_RIGHT
+			response :requested_range_not_satisfiable, Rhinocatalog::Api::ERROR_PARAM_TYPE
 		end	
 		def show
 			begin

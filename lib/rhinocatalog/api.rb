@@ -1,3 +1,4 @@
+require "rhinocatalog/api/engine"
 module Rhinocatalog
 	module Api
 		ERROR_ACCESS_DENIED = "ERROR_ACCESS_DENIED"

@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'sanitize'
   s.add_dependency 'swagger-docs'
   s.add_dependency 'grape-swagger-ui'
+  s.add_dependency 'jbuilder'
 end

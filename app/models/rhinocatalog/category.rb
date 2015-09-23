@@ -65,11 +65,12 @@ module Rhinocatalog
 			recursive_collect_children(root.includes(:children), tree, 0, nil)
 		end
 
-		def as_json(options = {})
-			options[:only] ||= [:id, :name]
-			options[:methods] ||= [:children, :products]
-			super(options)
-		end		
+		# def as_json(options = {})
+		# 	options[:only] ||= [:id, :name]
+		# 	# options[:methods] ||= [:children, :products]
+		# 	# options[:methods] ||= [:products]
+		# 	super(options)
+		# end		
 
 		protected
 			def name_to_slug

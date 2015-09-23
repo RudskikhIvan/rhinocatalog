@@ -1,0 +1,1 @@
+json.partial! 'children', categories: @categories

@@ -36,13 +36,17 @@ module Rhinocatalog
 		has_paper_trail
 
 	    def as_json(options = {})
-	        options[:only] ||= [:id, :name, :file]
+	        options[:only] ||= [:id, :file]
 	        options[:methods] ||= [:file_size]
 	        super(options)
 	    end
 
 	    def file_size
 	        file.size
-	    end		
+	    end	
+
+	    # def video_hd
+	    # 	self.where(resolution_type: VIDEO_TYPE_HD)
+	    # end	
 	end
 end

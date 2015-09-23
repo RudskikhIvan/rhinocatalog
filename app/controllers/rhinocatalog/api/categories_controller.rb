@@ -14,7 +14,8 @@ module Rhinocatalog
 			response :requested_range_not_satisfiable, Rhinocatalog::Api::ERROR_PARAM_TYPE
 		end			
 		def index
-			render json: Category.where(published: true)
+			# render json: Category.where(published: true)
+			@categories = Category.where(parent_id: nil, published: true)
 		end
 
 		swagger_api :show do

@@ -5,6 +5,8 @@ require "rhinocatalog/user"
 require "remotipart"
 require 'swagger/docs'
 require 'grape-swagger-ui'
+require 'jbuilder'
+
 
 module Rhinocatalog
   class Engine < ::Rails::Engine

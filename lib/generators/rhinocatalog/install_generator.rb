@@ -21,6 +21,7 @@ module Rhinocatalog
 
     def install_routes      
       route "mount Rhinocatalog::Engine => '/admin/catalog'"
+      route "# mount Rhinocatalog::Engine => '/api' #Uncomment if need"
     end
 
   end

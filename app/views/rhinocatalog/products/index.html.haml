@@ -1,4 +1,5 @@
 - provide(:title, t('products'))
+- back_path = params[:redirect_to].present? ? params[:redirect_to] : categories_path
 
 .box-header
 	%h2
@@ -12,9 +13,14 @@
 	.dataTables_wrapper
 		.row-fluid
 			.btn-overlay
+				= link_to back_path, class: 'btn btn-primary' do 
+					%i.fa-icon-arrow-left
+					= t(:_BACK)
+
 				= link_to new_category_product_path(@category), class: 'btn btn-primary' do 
 					%i.halflings-icon.plus
 					= t(:_BTN_CREATE)
+
 
 	%table.table.table-striped.tree
 		%thead

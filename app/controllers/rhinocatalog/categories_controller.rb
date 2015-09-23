@@ -5,7 +5,7 @@ module Rhinocatalog
 		before_action :set_category, only: [:edit, :update, :destroy]
 
 		def index
-			@categories = Category.paginate(:page => params[:page])
+			@categories = Category.tree #paginate(:page => params[:page])
 		end
 
 		def new

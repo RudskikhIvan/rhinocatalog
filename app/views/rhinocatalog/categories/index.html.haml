@@ -22,13 +22,16 @@
 				%th= t(:_ACTIONS) 
 		%tbody
 			- if @categories.any?
-				- @categories.each do |item| 
-					%tr
-						%td= link_to item.name, category_products_path(item)
+				- @categories.map { |b| [b[:category], b[:level]] }.each do |item, level| 
+					%tr{data: {id: item.id, level: level}}
+						%td
+							= link_to category_products_path(item, redirect_to: request.fullpath), style: "margin-left: #{level * 20}px;" do
+								= item.name 
+								%sup= "(#{item.products.count})"
 						%td
 							= link_to category_products_path(item), class: 'btn btn-danger btn-small' do
 								%i.icon-share
 							= link_to edit_category_path(item), class: 'btn btn-danger btn-small' do
 								%i.icon-edit
 							= link_to category_path(item), method: 'delete', class: 'btn btn-danger btn-small', data: { confirm: t('_DELETE_CONFIRM') } do
-								%i.icon-trash
+								%i.icon-trash						

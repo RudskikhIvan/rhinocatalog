@@ -14,6 +14,12 @@ namespace :rhinocatalog do
 				rescue					
 				end				
 			end
+			Rhinoart::User::ADMIN_PANEL_ROLES.each do |role|
+				begin
+					user.add_role(role) if user.has_role?('Super User')
+				rescue					
+				end				
+			end
 		end
 	end
 

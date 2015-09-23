@@ -11,6 +11,9 @@ module Rhinocatalog
 
 			Rhinoart::User::API_ROLE_USER_MOBILE_APP = "Mobile Application User"
 			Rhinoart::User::API_ROLES = [Rhinoart::User::API_ROLE_USER_MOBILE_APP]
+
+			# Rhinoart::User::FRONTEND_ROLES << Rhinoart::User::ADMIN_PANEL_ROLE_CATALOG_MANAGER
+			Rhinoart::User::FRONTEND_ROLES << Rhinoart::User::API_ROLE_USER_MOBILE_APP
 		end
 
 	    def has_access_to_api?

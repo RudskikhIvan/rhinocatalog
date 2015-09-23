@@ -23,3 +23,5 @@ module Rhinocatalog
 		http_basic_authenticate_with self.basic_auth_config
 	end
 end
+
+

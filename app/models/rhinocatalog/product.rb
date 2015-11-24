@@ -18,7 +18,7 @@ module Rhinocatalog
 	class Product < ActiveRecord::Base
 		before_validation :name_to_slug
 
-		belongs_to :category, class_name: self.to_s
+		belongs_to :category, class_name: 'Rhinocatalog::Category'
 
 		has_many :images, ->{ order(position: :asc) }, as: :imageable, :dependent => :destroy
 		accepts_nested_attributes_for :images, allow_destroy: true
@@ -37,28 +37,20 @@ module Rhinocatalog
 
 		has_paper_trail
 
-		def hd_video
-			videos.find_by(resolution_type: Video::VIDEO_TYPE_HD)
-		end
-		def hd_video=(new_video)
-			videos.where(resolution_type: Video::VIDEO_TYPE_HD).destroy_all			
-			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_HD, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
-		end
+		{
+			:hd => Video::VIDEO_TYPE_HD,
+			:sd => Video::VIDEO_TYPE_SD,
+			:ipad => Video::VIDEO_TYPE_43
+		}.each do |k, type|
+			define_method "#{k}_video" do
+				videos.find_by(resolution_type: type)
+			end
 
-		def sd_video
-			videos.find_by(resolution_type: Video::VIDEO_TYPE_SD)
-		end
-		def sd_video=(new_video)
-			videos.where(resolution_type: Video::VIDEO_TYPE_SD).destroy_all
-			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_SD, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
-		end
-
-		def ipad_video
-			videos.find_by(resolution_type: Video::VIDEO_TYPE_43)
-		end
-		def ipad_video=(new_video)
-			videos.where(resolution_type: Video::VIDEO_TYPE_43).destroy_all
-			videos(1) << Video.new(resolution_type: Video::VIDEO_TYPE_43, file: new_video) if new_video.class.name == 'ActionDispatch::Http::UploadedFile'
+			define_method "#{k}_video=" do |new_video|
+				videos.where(resolution_type: type).destroy_all
+				return unless ['ActionDispatch::Http::UploadedFile', 'File'].include?(new_video.class.name)
+				videos(1) << Video.new(resolution_type: type, file: new_video)
+			end
 		end
 
 		def as_json(options = {})
